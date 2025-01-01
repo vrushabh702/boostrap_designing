@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Searchable Dropdown in Card</title>
+    <!-- Include Bootstrap CSS (use a CDN) -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom style for dropdown */
+      .dropdown-menu {
+        max-height: 200px;
+        overflow-y: auto;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <!-- 3-column layout for the card -->
+        <div class="col-md-3">
+          <!-- Card with light grey background -->
+          <div class="card bg-light">
+            <div class="card-body">
+              <h5 class="card-title">Searchable Dropdown</h5>
+
+              <!-- Dropdown with search bar -->
+              <div class="dropdown">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchBar"
+                  placeholder="Search..."
+                  aria-label="Search"
+                />
+                <div
+                  class="dropdown-menu w-100"
+                  id="optionsContainer"
+                  style="display: none"
+                >
+                  <a class="dropdown-item" href="#">Option 1</a>
+                  <a class="dropdown-item" href="#">Option 2</a>
+                  <a class="dropdown-item" href="#">Option 3</a>
+                  <a class="dropdown-item" href="#">Option 4</a>
+                  <a class="dropdown-item" href="#">Option 5</a>
+                  <a class="dropdown-item" href="#">Option 6</a>
+                  <a class="dropdown-item" href="#">Option 7</a>
+                  <a class="dropdown-item" href="#">Option 8</a>
+                  <a class="dropdown-item" href="#">Option 9</a>
+                  <a class="dropdown-item" href="#">Option 10</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      // Get references to the search bar and options container
+      const searchBar = document.getElementById("searchBar")
+      const optionsContainer = document.getElementById("optionsContainer")
+      const options = document.querySelectorAll(".dropdown-item")
+
+      // Show the options container when the user focuses on the search bar
+      searchBar.addEventListener("focus", () => {
+        optionsContainer.style.display = "block"
+      })
+
+      // Hide the options container when clicking outside
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".dropdown")) {
+          optionsContainer.style.display = "none"
+        }
+      })
+
+      // Filter the options based on the search input
+      searchBar.addEventListener("input", () => {
+        const searchTerm = searchBar.value.toLowerCase()
+
+        let visibleOptionCount = 0
+
+        options.forEach((option) => {
+          const optionText = option.textContent.toLowerCase()
+          if (optionText.includes(searchTerm)) {
+            option.style.display = "block" // Show matching options
+            visibleOptionCount++
+          } else {
+            option.style.display = "none" // Hide non-matching options
+          }
+        })
+
+        // If no options match, hide the dropdown
+        if (visibleOptionCount === 0) {
+          optionsContainer.style.display = "none"
+        } else {
+          optionsContainer.style.display = "block"
+        }
+      })
+
+      // Optional: Set the search bar value when an option is clicked
+      options.forEach((option) => {
+        option.addEventListener("click", (event) => {
+          searchBar.value = option.textContent // Set the search bar text to the selected option
+          optionsContainer.style.display = "none" // Hide options after selection
+        })
+      })
+    </script>
+  </body>
+</html>
